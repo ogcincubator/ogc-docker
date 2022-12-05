@@ -11,9 +11,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN wget -O - https://github.com/${VOCPREZ_REPOSITORY}/archive/${VOCPREZ_COMMIT_ID}.tar.gz | \
       tar zxf - --strip-components=1
 RUN python -m pip install -r requirements.txt && \
-    python -m pip install -r requirements.deploy.txt && \
-    sed '0,/logging.basicConfig/s//import sys\n&/' -i vocprez/app.py && \
-    sed -r 's@filename=config.LOGFILE,@stream=sys.stdout,@' -i vocprez/app.py
+    python -m pip install -r requirements.deploy.txt \
+    && ln -sf /dev/stdout vocprez/vocprez.log
 
 WORKDIR /app-theme
 RUN wget -O - https://github.com/${VOCPREZ_THEME_REPOSITORY}/archive/${VOCPREZ_THEME_COMMIT_ID}.tar.gz | \
