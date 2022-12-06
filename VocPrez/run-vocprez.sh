@@ -6,4 +6,5 @@ echo "SYSTEM_URI_BASE = ${SYSTEM_URI_BASE}"
 chmod a+x apply.sh
 ./apply.sh
 cd /app
+rm -f vocprez/cache/DATA.p
 exec gunicorn -b 0.0.0.0:8000 vocprez.app:app
