@@ -1,0 +1,32 @@
+version: "3.0"
+
+services:
+
+  fuseki:
+    build: ./fuseki
+    environment:
+      ADMIN_PASSWORD: admin
+      FUSEKI_DATASET_OGC: ogc
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./fuseki-data:/fuseki
+
+  vocprez:
+    build:
+      context: ./VocPrez
+      args:
+        VOCPREZ_REPOSITORY: "avillar/VocPrez/"
+        VOCPREZ_COMMIT_ID: "avillar/devel"
+        VOCPREZ_THEME_REPOSITORY: "avillar/VocPrez-theme-ogc"
+        VOCPREZ_THEME_COMMIT_ID: master
+    depends_on:
+      - fuseki
+    environment:
+      SPARQL_ENDPOINT: http://fuseki:3030/ogc/query
+    ports:
+      - "8000:8000"
+    #volumes:
+    #  - type: bind
+    #    source: ./vocprez_config.py
+    #    target: /app/vocprez/_config/__init__.py
