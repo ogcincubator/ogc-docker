@@ -19,6 +19,7 @@ RUN wget -O - https://github.com/${VOCPREZ_THEME_REPOSITORY}/archive/${VOCPREZ_T
       tar zxf - --strip-components=1
 
 FROM python:3.11-slim as runner
+RUN apt-get update && apt-get install -y --no-install-recommends libxslt1.1
 COPY --from=compiler /opt/venv /opt/venv
 COPY --from=compiler /app /app
 COPY --from=compiler /app-theme /app-theme
