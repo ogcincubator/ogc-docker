@@ -4,6 +4,7 @@ services:
 
   fuseki:
     build: ./fuseki
+    image: docker.io/dockerogc/fuseki
     environment:
       ADMIN_PASSWORD: admin
       FUSEKI_DATASET_OGC: ogc
@@ -20,6 +21,7 @@ services:
         VOCPREZ_COMMIT_ID: "avillar/devel"
         VOCPREZ_THEME_REPOSITORY: "avillar/VocPrez-theme-ogc"
         VOCPREZ_THEME_COMMIT_ID: master
+    image: docker.io/dockerogc/vocprez
     depends_on:
       - fuseki
     environment:
