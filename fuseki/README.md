@@ -46,7 +46,7 @@ mounted on the container):
 ```shell
 FUSEKI_DATASET_OGC_NA=ogc-na
 FUSEKI_INITIAL_DATA_OGC_NA="/initial-data/*.ttl"
-FUSEKI_INITIAL_GRAPH_OGC_NA=""<urn:x-ogc:defs-server/initial-data>""
+FUSEKI_INITIAL_GRAPH_OGC_NA="<urn:x-ogc:defs-server/initial-data>"
 ```
 
 ### Building Docker images
