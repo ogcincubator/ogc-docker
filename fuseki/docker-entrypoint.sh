@@ -46,22 +46,35 @@ if [ -n "$ADMIN_PASSWORD" ] ; then
   export ADMIN_PASSWORD
 fi
 
-# Convert env to datasets in the form FUSEKI_DATASET_DATASET_X=dataset_x
+# Convert env to datasets in the form FUSEKI_DATASET_MY_DATASET=my_dataset
 printenv | egrep "^FUSEKI_DATASET_" | while read env_var
 do
-    dataset=$(echo $env_var | egrep -o "=.*$" | sed 's/^=//g')
-    conffile="${FUSEKI_BASE}/configuration/${dataset}.ttl"
+  dataset="${env_var#*=}"
+  datasetid="${env_var%%=*}"
+  datasetid="${datasetid#FUSEKI_DATASET_}"
+  conffile="${FUSEKI_BASE}/configuration/${dataset}.ttl"
+  TDB2_LOCATION="${FUSEKI_BASE}/databases/${dataset}"
 
-    if [ -f "$conffile" ]; then
-      echo "${conffile} exists, not overwriting"
-      # skip if exists
-      continue
-    fi
+  if [ -f "$conffile" ]; then
+    echo "${conffile} exists, not overwriting"
+    # skip if exists
+    continue
+  fi
 
-    echo "Creating dataset ${dataset} at ${conffile}"
-    mkdir -p "${FUSEKI_BASE}/configuration"
+  # Load data from FUSEKI_INITIAL_DATA_MY_DATASET
+  INITIAL_DATA_VARNAME="FUSEKI_INITIAL_DATA_${datasetid}"
+  INITIAL_GRAPH_VARNAME="FUSEKI_INITIAL_GRAPH_${datasetid}"
+  DATA_FILE="${!INITIAL_DATA_VARNAME}"
+  GRAPH_IRI="${!INITIAL_GRAPH_VARNAME}"
+  if [ -n "${DATA_FILE}" ] && ! ls ${DATA_FILE} >/dev/null 2>&1; then
+    echo "Error: initial data file(s) for dataset ${dataset} not found: ${DATA_FILE}" >&2
+    exit 2
+  fi
 
-    cat << EOF > "${conffile}"
+  echo "Creating dataset ${dataset} at ${conffile}"
+  mkdir -p "${FUSEKI_BASE}/configuration"
+
+  cat << EOF > "${conffile}"
 @prefix :       <#> .
 @prefix fuseki: <http://jena.apache.org/fuseki#> .
 @prefix ja:     <http://jena.hpl.hp.com/2005/11/Assembler#> .
@@ -110,11 +123,19 @@ ja:RDFDatasetOne  rdfs:subClassOf  ja:RDFDataset .
 ja:MemoryDataset  rdfs:subClassOf  ja:RDFDataset .
 :tdb_dataset_readwrite
         rdf:type       tdb2:DatasetTDB2 ;
-        tdb2:location  "${FUSEKI_BASE}/databases/${dataset}" ;
+        tdb2:location  "${TDB2_LOCATION}" ;
         tdb2:unionDefaultGraph true ;
         .
 ja:DatasetRDFS  rdfs:subClassOf  ja:RDFDataset .
 EOF
+
+  if [ -n "${DATA_FILE}" -a -n "${GRAPH_IRI}" ]; then
+    echo "Loading initial data into ${dataset} (graph ${GRAPH_IRI}) from ${DATA_FILE}"
+    ./tdbloader2 --loc="${TDB2_LOCATION}" --graph="${GRAPH_IRI}" ${DATA_FILE}
+  else
+    echo "Loading initial data into ${dataset} from ${DATA_FILE}"
+    ./tdbloader2 --loc="${TDB2_LOCATION}" ${DATA_FILE}
+  fi
 done
 
 exec "${FUSEKI_HOME}/fuseki-server"

@@ -27,12 +27,27 @@ docker run -p 3030:3030 -v $(pwd)/fuseki-data:/fuseki dockerogc/fuseki
 
 #### Datasets
 
-For convenience the container can create datasets (if they do not already exist) on startup.
+For convenience the container can create TDB2 datasets (if they do not already exist) on startup.
 These datasets will have their `tdb2:unionDefaultGraph` set to `true`.
 
 Dataset creation is controlled by using environment variables in the `FUSEKI_DATASET_MY_DATASET=my_dataset` form,
-where only the variable value matters; the previous example would create a `my_dataset` dataset on startup
+where only the variable value matters; the previous example would create a `my_dataset` TDB2 dataset on startup
 if one does not exist.
+
+Additionally, for every `FUSEKI_DATASET_MY_DATASET` variable, the following two variables can be defined:
+
+* `FUSEKI_INITIAL_DATA_MY_DATASET`, with a file (or glob) to load initial data from.
+* `FUSEKI_INITIAL_GRAPH_MY_DATASET` with the IRI of the graph where initial data will be loaded.
+
+For example, the following defines an `ogc-na` repository with initial data loaded onto the
+`urn:x-ogc:defs-server/initial-data` graph (of course, the /initial-data directory needs to be
+mounted on the container):
+
+```shell
+FUSEKI_DATASET_OGC_NA=ogc-na
+FUSEKI_INITIAL_DATA_OGC_NA="/initial-data/*.ttl"
+FUSEKI_INITIAL_GRAPH_OGC_NA=""<urn:x-ogc:defs-server/initial-data>""
+```
 
 ### Building Docker images
 
