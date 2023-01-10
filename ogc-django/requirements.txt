@@ -1,0 +1,13 @@
+# requirements for the OGC-NA python environment
+# Rob Atkinson, rob-squigglyat-metalinkage.com.au
+#
+# security patch 06/03/2020
+Django>=2.1,<3
+django-admin-tools
+
+# this should be pulled in transitively from rdf_io
+rdflib>=4.0
+django-smuggler>=1
+
+gunicorn
+uriredirect@git+https://github.com/rob-metalinkage/uriredirect.git

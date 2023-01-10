@@ -1,0 +1,12 @@
+[
+  {
+    "module": "django-smuggler",
+    "pkg": "smuggler",
+    "path": "smuggler"
+  },
+  {
+    "module": "uriredirect",
+    "path": "def",
+    "git": "https://github.com/rob-metalinkage/uriredirect.git"
+  }
+]
