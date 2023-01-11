@@ -31,6 +31,8 @@ fi
 
 yes yes | python manage.py collectstatic
 
-gunicorn --bind unix:/run/gunicorn.sock --access-logfile - "${PROJECT_NAME}.wsgi:application" --daemon
+if [ "${WITH_NGINX}" = "1" -o "${WITH_NGINX}" = "true" ]; then
+  gunicorn --bind unix:/run/gunicorn.sock --access-logfile - "${PROJECT_NAME}.wsgi:application" --daemon
+fi
 
 exec "$@"

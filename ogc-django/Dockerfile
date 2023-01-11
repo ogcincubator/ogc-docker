@@ -1,6 +1,7 @@
 FROM python:3.9-alpine
 
 ARG PROJECT_NAME=ogc
+ARG WITH_NGINX=1
 ENV SUPERUSER admin
 ENV SUPERUSER_EMAIL admin@ogc.org
 ENV SUPERUSER_PASSWORD ogc
@@ -15,16 +16,17 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_ROOT_USER_ACTION ignore
 ENV PROJECT_NAME ${PROJECT_NAME}
 ENV DJANGO_PATH "/app/django/${PROJECT_NAME}"
+ENV WITH_NGINX ${WITH_NGINX}
 
 WORKDIR /app/django
 COPY requirements.txt /app/
 RUN apk update && \
-    apk add nginx git && \
+    ( [ "${WITH_NGINX}" = "1" -o "${WITH_NGINX}" = "true" ] && apk add nginx git || apk add git ) && \
     pip install --upgrade pip && \
     pip install -r /app/requirements.txt && \
     django-admin startproject "${PROJECT_NAME}" . && \
-    mkdir -p static /app/resources "${DJANGO_SMUGGLER_FIXTURE_DIR}" && \
-    rm /etc/nginx/http.d/*.conf
+    mkdir -p static /app/resources "${DJANGO_SMUGGLER_FIXTURE_DIR}" /etc/nginx/http.d/ && \
+    rm -f /etc/nginx/http.d/*.conf
 
 COPY docker-entrypoint.sh settings-append.py django-modules.json install-modules.py /app/
 COPY nginx.conf /etc/nginx/http.d/default.conf
@@ -39,5 +41,4 @@ EXPOSE 80
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-#CMD gunicorn --bind 0.0.0.0:8000 --access-logfile - "${PROJECT_NAME}.wsgi:application"
-CMD nginx -g 'daemon off;'
+CMD [ "${WITH_NGINX}" = "1" -o "${WITH_NGINX}" = "true" ] && nginx -g 'daemon off;' || gunicorn --bind 0.0.0.0:8000 --access-logfile - "${PROJECT_NAME}.wsgi:application
