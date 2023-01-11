@@ -19,16 +19,16 @@
     "module": "django-skosxl",
     "pkg": "skosxl",
     "path": "skosxl",
-    "git": "https://github.com/rob-metalinkage/django-skosxl.git"
+    "git": "https://github.com/avillar/django-skosxl.git"
   },
   {
-    "module": "django-ogc",
+    "module": "ogcext",
     "pkg": "ogcext",
     "path": "ogcext",
     "git": "https://github.com/rob-metalinkage/django-ogc.git"
   },
   {
-    "module": "DGGSRegistry",
+    "module": "dggsreg",
     "pkg": "dggsreg",
     "path": "dggs_registry",
     "git": "https://github.com/rob-metalinkage/DGGSRegistry.git"
