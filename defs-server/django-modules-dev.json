@@ -1,0 +1,36 @@
+[
+  {
+    "module": "django-smuggler",
+    "pkg": "smuggler",
+    "path": "smuggler"
+  },
+  {
+    "module": "uriredirect",
+    "path": "def",
+    "git": "https://github.com/rob-metalinkage/uriredirect.git"
+  },
+  {
+    "module": "django-rdf-io",
+    "pkg": "rdf_io",
+    "path": "rdf_io",
+    "git": "https://github.com/rob-metalinkage/django-rdf-io.git"
+  },
+  {
+    "module": "django-skosxl",
+    "pkg": "skosxl",
+    "path": "skosxl",
+    "git": "https://github.com/rob-metalinkage/django-skosxl.git"
+  },
+  {
+    "module": "django-ogc",
+    "pkg": "ogcext",
+    "path": "ogcext",
+    "git": "https://github.com/rob-metalinkage/django-ogc.git"
+  },
+  {
+    "module": "DGGSRegistry",
+    "pkg": "dggsreg",
+    "path": "dggs_registry",
+    "git": "https://github.com/rob-metalinkage/DGGSRegistry.git"
+  }
+]

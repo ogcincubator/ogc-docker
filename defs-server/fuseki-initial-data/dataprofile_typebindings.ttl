@@ -1,0 +1,38 @@
+# baseURI: http://www.opengis.net/def/ogc-na/dataprofile-typebindings
+# imports: http://www.w3.org/2004/02/skos/core
+# imports: http://www.w3.org/ns/dcat
+# imports: http://www.w3.org/ns/dx/prof
+# prefix: profiles
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prof: <http://www.w3.org/ns/dx/prof/> .
+@prefix profiles: <http://www.opengis.net/def/ogc-na/profiles#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ogc: <http://www.opengis.net/def/metamodel/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+<http://www.opengis.net/def/ogc-na/profiles>
+  a owl:Ontology ;
+  rdfs:comment "A set of profiles describing resources available via the OGC defintions server. Drives the provision of the alternates (all) view in content negotiation by profile." ;
+  rdfs:label "OGC Definitions Server view descriptions" ;
+  owl:imports <file:/C:/repos/ogc/ogc-na/initialdata/profiles.ttl> ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:imports <http://www.w3.org/ns/dcat> ;
+  owl:imports <http://www.w3.org/ns/dx/prof> ;
+  owl:versionInfo "Created with TopBraid Composer" ;
+.
+
+skos:Concept
+	ogc:hasProfile "concept", "conceptscheme" ;
+.
+
+skos:ConceptScheme
+	ogc:hasProfile "conceptscheme" ;
+.
+
+skos:Collection
+	ogc:hasProfile "collection" , "collection_graph"; 
+.

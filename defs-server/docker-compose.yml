@@ -1,0 +1,62 @@
+version: "3.0"
+
+volumes:
+  fuseki-data:
+  django-data:
+  repos:
+
+services:
+
+  fuseki:
+    image: dockerogc/fuseki
+    environment:
+      ADMIN_PASSWORD: admin
+      FUSEKI_DATASET_OGC_NA: ogc-na
+      FUSEKI_DATASET_PROFILES: profiles
+      FUSEKI_INITIAL_DATA_OGC_NA: /initial-data/*.ttl
+      FUSEKI_INITIAL_GRAPH_OGC_NA: "<urn:x-ogc:defs-server/initial-data>"
+    ports:
+      - "8002:3030"
+    volumes:
+      # Mount fuseki data volume for persistence
+      - fuseki-data:/fuseki
+      # Mount initial data repository for first run
+      - ./fuseki-initial-data:/initial-data:ro
+
+  vocprez:
+    image: dockerogc/vocprez
+    depends_on:
+      - fuseki
+    environment:
+      SPARQL_ENDPOINT: http://fuseki:3030/ogc/query
+    ports:
+      - "8001:8000"
+
+  django:
+    image: dockerogc/ogc-django
+    volumes:
+      # Mount django data volume for persistence
+      - django-data:/app/django
+      # Uncomment the following entry to load dev modules
+      # - ./django-modules-dev.json:/app/django-modules.json
+
+  nginx:
+    image: nginx:1-alpine
+    depends_on:
+      - fuseki
+      - vocprez
+      - django
+      - repos-cron
+    volumes:
+      - django-data:/var/www:ro
+      - repos:/var/repos:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8000:80"
+
+  repos-cron:
+    image: dockerogc/git-cron
+    environment:
+      - "CRON_REPO_ogc_na=https://github.com/opengeospatial/NamingAuthority"
+    volumes:
+      - repos:/repos
