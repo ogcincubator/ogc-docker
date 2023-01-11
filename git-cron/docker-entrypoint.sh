@@ -14,7 +14,7 @@ CRONTAB="/etc/crontabs/root"
 
 sed -n "/${MARKER}/q;p" -i "$CRONTAB"
 echo "${MARKER}" >> "${CRONTAB}"
-echo "${CRON_EXPRESSION} /bin/bash /update-repos.sh" >> "${CRONTAB}"
+echo "${CRON_EXPRESSION} /bin/sh /update-repos.sh" >> "${CRONTAB}"
 
 /update-repos.sh &
 
