@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p $(echo ${DJANGO_SMUGGLER_FIXTURE_DIR} | sed -r "s@^'|'\$@@g")
+
 # Migrations
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput

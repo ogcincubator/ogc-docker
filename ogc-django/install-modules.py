@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 
 DJANGO_PATH = Path(os.environ['DJANGO_PATH'])
+GIT_MODULES_PATH = Path("/module-repos")
+GIT_MODULES_PATH.mkdir(exist_ok=True)
 
 already_installed = set(p['name'].lower() for p in json.loads(subprocess.check_output(['pip', 'list', '--format=json'])))
 
@@ -25,14 +27,17 @@ for mod in mods:
         print(f"{name} is already installed")
     else:
         if mod.get('git'):
-            pip_module = f"{name}@git+{mod['git']}"
+            print(f"Installing module {name} from {mod['git']}")
+            module_path = GIT_MODULES_PATH / name
+            if not module_path.exists():
+                subprocess.check_call(['git', 'clone', mod['git'], str(module_path.resolve())])
+                subprocess.check_call(['pip', 'install', '-e', '.'], cwd=module_path)
         else:
-            pip_module = name
+            print(f"Installing module {name}")
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
 
-        print(f"Installing module {pip_module}")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', pip_module])
-
-    installed_apps.append(pkg)
+    if not mod.get('skip-django'):
+        installed_apps.append(pkg)
     if path:
         urlpatterns.append(f"urlpatterns += [ url(r'^{path}/', include('{pkg}.urls')) ]")
 

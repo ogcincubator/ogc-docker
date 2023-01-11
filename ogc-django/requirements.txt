@@ -11,3 +11,5 @@ django-smuggler>=1
 
 gunicorn
 uriredirect@git+https://github.com/rob-metalinkage/uriredirect.git
+django-model-utils==4.0.0
+django-extensions==3.0.2

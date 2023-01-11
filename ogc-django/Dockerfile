@@ -25,7 +25,7 @@ RUN apk update && \
     pip install --upgrade pip && \
     pip install -r /app/requirements.txt && \
     django-admin startproject "${PROJECT_NAME}" . && \
-    mkdir -p static /app/resources "${DJANGO_SMUGGLER_FIXTURE_DIR}" /etc/nginx/http.d/ && \
+    mkdir -p static /app/resources /etc/nginx/http.d/ && \
     rm -f /etc/nginx/http.d/*.conf
 
 COPY docker-entrypoint.sh settings-append.py django-modules.json install-modules.py /app/
