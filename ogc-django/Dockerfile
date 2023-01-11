@@ -41,4 +41,4 @@ EXPOSE 80
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-CMD [ "${WITH_NGINX}" = "1" -o "${WITH_NGINX}" = "true" ] && nginx -g 'daemon off;' || gunicorn --bind 0.0.0.0:8000 --access-logfile - "${PROJECT_NAME}.wsgi:application
+CMD []
