@@ -30,3 +30,11 @@ services:
       - "8000:8000"
     volumes:
       - ./vocprez-config/:/app/vocprez/_config/
+
+  ogc-django:
+    build: ./ogc-django
+    image: dockerogc/ogc-django
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django-data/:/app/django/
