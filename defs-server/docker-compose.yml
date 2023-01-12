@@ -12,7 +12,6 @@ services:
     environment:
       ADMIN_PASSWORD: admin
       FUSEKI_DATASET_OGC_NA: ogc-na
-      FUSEKI_DATASET_PROFILES: profiles
       FUSEKI_INITIAL_DATA_OGC_NA: /initial-data/*.ttl
       FUSEKI_INITIAL_GRAPH_OGC_NA: "<urn:x-ogc:defs-server/initial-data>"
     ports:
@@ -28,7 +27,10 @@ services:
     depends_on:
       - fuseki
     environment:
+      SYSTEM_URI_BASE: http://defs-dev.opengis.net/vocprez
       SPARQL_ENDPOINT: http://fuseki:3030/ogc/query
+      DOCKER_REVERSE_PROXY: "/vocprez:8000"
+      DOCKER_REVERSE_PROXY_HEADERS: "SCRIPT_NAME=/vocprez"
     ports:
       - "8001:8000"
 
@@ -41,22 +43,30 @@ services:
       # - ./django-modules-dev.json:/app/django-modules.json
 
   nginx:
-    image: nginx:1-alpine
+    image: python:3.9-alpine
     depends_on:
       - fuseki
       - vocprez
       - django
       - repos-cron
+    environment:
+      DOCKER_PROXY: |
+        [
+          { "location": "/vocprez", "service": "vocprez", "port": 8000, "headers": { "SCRIPT_NAME": "/vocprez" } },
+          { "location": "/ogc-na", "repo": "ogc-na" }
+        ]
+    entrypoint: python
+    command: ['/nginx/nginx-entrypoint.py']
     volumes:
-      - django-data:/var/www:ro
+      - ./nginx:/nginx
+      - django-data:/var/django:ro
       - repos:/var/repos:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8000:80"
 
   repos-cron:
     image: dockerogc/git-cron
     environment:
-      - "CRON_REPO_ogc_na=https://github.com/opengeospatial/NamingAuthority"
+      - "CRON_REPO_ogc_na=https://github.com/opengeospatial/NamingAuthority.git ogc-na"
     volumes:
       - repos:/repos
