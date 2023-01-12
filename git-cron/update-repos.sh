@@ -5,12 +5,24 @@ cd /repos
 REPOS="$(printenv | grep ^CRON_REPO_.\\+)"
 
 echo "${REPOS}" | while read REPO; do
-  SUBDIR="${REPO%%=*}"
-  SUBDIR="${SUBDIR#CRON_REPO_}"
+
   URL="${REPO#*=}"
-  BRANCH="${REPO#*@@}"
-  if [ "${BRANCH}" == "${REPO}" ]; then # no @@ found
+
+  # SUBDIR in variable value
+  if [[ "${URL}" == "* *" ]]; then
+    SUBDIR="${URL#* }"
+    URL="${URL%% *}"
+  else
+    SUBDIR="${REPO%%=*}"
+    SUBDIR="${SUBDIR#CRON_REPO_}"
+  fi
+
+  BRANCH="${URL#*@@}"
+  if [ "${BRANCH}" == "${URL}" ]; then # no @@ found
     BRANCH=
+  else
+    # Remove BRANCH from URL
+    URL="${URL%%@@*}"
   fi
 
   if [ -e "${SUBDIR}" ]; then
