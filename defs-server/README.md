@@ -2,8 +2,10 @@
 
 This project contains a ready-to-use Docker Compose configuration to run an OGC Definitions Server:
 
-* A Fuseki dataset named `ogc-na` is available 
-* A single VocPrez instance is published under `/vocprez` for the `ogc-na` dataset
+* A Fuseki dataset named `ogc-na` is available.
+* A single VocPrez instance is published under `/vocprez` for the `ogc-na` dataset.
+* The files for [the OGC NamingAuthority repository](https://github.com/opengeospatial/NamingAuthority)
+  is available under /ogc-na, refreshed automatically  every 30 minutes.
 
 ## How to add new instances
 
