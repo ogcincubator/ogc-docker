@@ -49,6 +49,9 @@ FUSEKI_INITIAL_DATA_OGC_NA="/initial-data/*.ttl"
 FUSEKI_INITIAL_GRAPH_OGC_NA="<urn:x-ogc:defs-server/initial-data>"
 ```
 
+**Note**: The writable endpoints (SPARQL/Update, Graph Store RW) for all datasets created in this manner are restricted
+to the admin user by default.
+
 ### Building Docker images
 
 | Variable         | Default value  | Description                   |

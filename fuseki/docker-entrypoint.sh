@@ -97,9 +97,12 @@ ja:RDFDatasetZero  rdfs:subClassOf  ja:RDFDataset .
                            fuseki:operation  fuseki:query
                          ] ;
         fuseki:endpoint  [ fuseki:name       "update" ;
-                           fuseki:operation  fuseki:update
+                           fuseki:operation  fuseki:update ;
+                           fuseki:allowedUsers "*"
                          ] ;
-        fuseki:endpoint  [ fuseki:operation  fuseki:gsp-rw ] ;
+        fuseki:endpoint  [ fuseki:operation  fuseki:gsp-rw ;
+                           fuseki:allowedUsers "*"
+                         ] ;
         fuseki:endpoint  [ fuseki:name       "query" ;
                            fuseki:operation  fuseki:query
                          ] ;
@@ -107,9 +110,12 @@ ja:RDFDatasetZero  rdfs:subClassOf  ja:RDFDataset .
                            fuseki:operation  fuseki:gsp-r
                          ] ;
         fuseki:endpoint  [ fuseki:name       "data" ;
-                           fuseki:operation  fuseki:gsp-rw
+                           fuseki:operation  fuseki:gsp-rw ;
+                           fuseki:allowedUsers "*"
                          ] ;
-        fuseki:endpoint  [ fuseki:operation  fuseki:update ] ;
+        fuseki:endpoint  [ fuseki:operation  fuseki:update ;
+                           fuseki:allowedUsers "*"
+                         ] ;
         fuseki:endpoint  [ fuseki:operation  fuseki:query ] ;
         fuseki:name      "${dataset}" .
 ja:ViewGraph  rdfs:subClassOf  ja:Model .
