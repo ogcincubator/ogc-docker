@@ -1,8 +1,8 @@
 FROM python:3.11-bullseye as compiler
-ARG VOCPREZ_REPOSITORY="rob-metalinkage/VocPrez/"
-ARG VOCPREZ_COMMIT_ID=576f27770da815de38c3fe5551f85763a6bbd0ae
-ARG VOCPREZ_THEME_REPOSITORY="surroundaustralia/VocPrez-theme-ogc"
-ARG VOCPREZ_THEME_COMMIT_ID=9d37a62c130a9e9e6c0b56c675c347676f2f3a2d
+ARG VOCPREZ_REPOSITORY="avillar/VocPrez/"
+ARG VOCPREZ_COMMIT_ID=master
+ARG VOCPREZ_THEME_REPOSITORY="avillar/VocPrez-theme-ogc"
+ARG VOCPREZ_THEME_COMMIT_ID=master
 
 WORKDIR /app
 RUN python -m venv /opt/venv
