@@ -102,6 +102,9 @@ ja:RDFDatasetZero  rdfs:subClassOf  ja:RDFDataset .
          fuseki:endpoint  [ fuseki:name       "update" ;
                            fuseki:operation  fuseki:query ;
                          ] ;
+         fuseki:endpoint  [ fuseki:name       "update" ;
+                           fuseki:operation  fuseki:gsp-rw ;
+                         ] ;
         fuseki:endpoint  [ fuseki:name       "query" ;
                            fuseki:operation  fuseki:query
                          ] ;
