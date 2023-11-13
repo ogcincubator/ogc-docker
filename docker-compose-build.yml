@@ -17,9 +17,9 @@ services:
     build:
       context: ./VocPrez
       args:
-        VOCPREZ_REPOSITORY: "avillar/VocPrez/"
-        VOCPREZ_COMMIT_ID: "avillar/devel"
-        VOCPREZ_THEME_REPOSITORY: "avillar/VocPrez-theme-ogc"
+        VOCPREZ_REPOSITORY: "ogcincubator/VocPrez"
+        VOCPREZ_COMMIT_ID: "master"
+        VOCPREZ_THEME_REPOSITORY: "ogcincubator/VocPrez-theme-ogc"
         VOCPREZ_THEME_COMMIT_ID: master
     image: dockerogc/vocprez
     depends_on:

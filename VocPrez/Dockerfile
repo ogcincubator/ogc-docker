@@ -1,7 +1,7 @@
 FROM python:3.11-bullseye as compiler
-ARG VOCPREZ_REPOSITORY="avillar/VocPrez/"
+ARG VOCPREZ_REPOSITORY="ogcincubator/VocPrez/"
 ARG VOCPREZ_COMMIT_ID=master
-ARG VOCPREZ_THEME_REPOSITORY="avillar/VocPrez-theme-ogc"
+ARG VOCPREZ_THEME_REPOSITORY="ogcincubator/VocPrez-theme-ogc"
 ARG VOCPREZ_THEME_COMMIT_ID=master
 
 WORKDIR /app
