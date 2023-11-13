@@ -21,9 +21,10 @@ docker run -p 3030:3030 -v $(pwd)/fuseki-data:/fuseki dockerogc/fuseki
 
 ### Runtime
 
-| Variable         | Default value  | Description                                                                                                     |
-|------------------|----------------|-----------------------------------------------------------------------------------------------------------------|
-| `ADMIN_PASSWORD` | `"admin"`      | Password for Fuseki admin UI. If no password is provided, a random one will be generated and printed on startup |
+| Variable         | Default value | Description                                                                                                     |
+|------------------|---------------|-----------------------------------------------------------------------------------------------------------------|
+| `ADMIN_PASSWORD` | `"admin"`     | Password for Fuseki admin UI. If no password is provided, a random one will be generated and printed on startup |
+| `JVM_ARGS`       | empty         | Variables that will be passed to the JVM (e.g. `-Xmx 4G`)                                                       |
 
 #### Datasets
 
