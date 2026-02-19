@@ -4,8 +4,8 @@ set -e
 TEMPLATE_FILE="${TEMPLATE_FILE:-/etc/nginx/nginx.conf.template}"
 OUTPUT_FILE="${OUTPUT_FILE:-/etc/nginx/conf.d/default.conf}"
 
-PREZ_BACKEND_URL="${PREZ_BACKEND_URL:-http://prez:5000}"
-PREZ_UI_URL="${PREZ_UI_URL:-http://prez-ui:3000}"
+PREZ_BACKEND_URL="${PREZ_BACKEND_URL:-http://prez:8000}"
+PREZ_UI_URL="${PREZ_UI_URL:-http://prez-ui:8080}"
 PREZ_BACKEND_PATH="${PREZ_BACKEND_PATH:-/prez-b}"
 PREZ_UI_PATH="${PREZ_UI_PATH:-/prez}"
 

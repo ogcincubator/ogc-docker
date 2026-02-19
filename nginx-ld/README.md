@@ -6,14 +6,14 @@ On startup, the entrypoint generates an nginx config from environment variables 
 
 ## Environment variables
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `EXTERNAL_PREZ_BACKEND_URL` | Yes | — | Public-facing base URL of the Prez backend, used to build redirect targets (e.g. `https://example.com/prez-b`) |
-| `REDIRECTS` | Yes | — | Newline-separated list of `prefix=base_url` redirect rules (see below) |
-| `PREZ_BACKEND_URL` | No | `http://prez:5000` | Internal URL of the Prez backend service |
-| `PREZ_UI_URL` | No | `http://prez-ui:3000` | Internal URL of the Prez UI service |
-| `PREZ_BACKEND_PATH` | No | `/prez-b` | Path prefix for the Prez backend proxy route |
-| `PREZ_UI_PATH` | No | `/prez` | Path prefix for the Prez UI proxy route |
+| Variable | Required | Default                          | Description |
+|---|---|----------------------------------|---|
+| `EXTERNAL_PREZ_BACKEND_URL` | Yes | —                                | Public-facing base URL of the Prez backend, used to build redirect targets (e.g. `https://example.com/prez-b`) |
+| `REDIRECTS` | Yes | —                                | Newline-separated list of `prefix=base_url` redirect rules (see below) |
+| `PREZ_BACKEND_URL` | No | `http://prez:8000`               | Internal URL of the Prez backend service |
+| `PREZ_UI_URL` | No | `http://prez-ui:8080`            | Internal URL of the Prez UI service |
+| `PREZ_BACKEND_PATH` | No | `/prez-b`                        | Path prefix for the Prez backend proxy route |
+| `PREZ_UI_PATH` | No | `/prez`                          | Path prefix for the Prez UI proxy route |
 | `TEMPLATE_FILE` | No | `/etc/nginx/nginx.conf.template` | Path to the nginx config template |
 | `OUTPUT_FILE` | No | `/etc/nginx/conf.d/default.conf` | Path where the generated config is written |
 
