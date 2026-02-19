@@ -1,0 +1,19 @@
+server {
+    listen 80;
+
+    location __PREZ_UI_PATH__ {
+        proxy_pass __PREZ_UI_URL__;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location __PREZ_BACKEND_PATH__ {
+        proxy_pass __PREZ_BACKEND_URL__;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+__REDIRECTS__
+}
