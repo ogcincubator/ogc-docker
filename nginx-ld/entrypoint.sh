@@ -38,7 +38,7 @@ REDIRECT_BLOCKS=$(echo "$REDIRECTS" | while IFS='=' read -r prefix base_url; do
     base_url=$(echo "$base_url" | sed 's|/$||')
     cat <<EOF
     location ~ ^${prefix}/(.*)$ {
-        return 302 ${EXTERNAL_PREZ_BACKEND_URL}/object/resource?uri=${base_url}/\$1;
+        return 302 ${EXTERNAL_PREZ_BACKEND_URL}/object?uri=${base_url}/\$1;
     }
 EOF
 done)
