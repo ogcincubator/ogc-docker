@@ -72,7 +72,14 @@ do
     if [[ "${DATA_SOURCE}" =~ ^https?:// ]]; then
       # URL: download to a temp file; default graph IRI to the URL
       [ -z "${GRAPH_IRI}" ] && GRAPH_IRI="${DATA_SOURCE}"
-      TEMP_DATA_FILE=$(mktemp)
+      # Derive extension from URL (strip query string and fragment first)
+      _url_path="${DATA_SOURCE%%[?]*}"; _url_path="${_url_path%%#*}"
+      _ext="${_url_path##*.}"
+      case "${_ext}" in
+        ttl|rdf|owl|nt|nq|jsonld|trig|n3|xml) ;;
+        *) _ext="ttl" ;;
+      esac
+      TEMP_DATA_FILE=$(mktemp --suffix=".${_ext}")
       echo "Downloading initial data for dataset ${dataset} from ${DATA_SOURCE}"
       if ! curl -fsSL "${DATA_SOURCE}" -o "${TEMP_DATA_FILE}"; then
         echo "Error: failed to download initial data for dataset ${dataset} from ${DATA_SOURCE}" >&2
