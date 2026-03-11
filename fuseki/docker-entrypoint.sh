@@ -64,11 +64,30 @@ do
   # Load data from FUSEKI_INITIAL_DATA_MY_DATASET
   INITIAL_DATA_VARNAME="FUSEKI_INITIAL_DATA_${datasetid}"
   INITIAL_GRAPH_VARNAME="FUSEKI_INITIAL_GRAPH_${datasetid}"
-  DATA_FILE="${!INITIAL_DATA_VARNAME}"
+  DATA_SOURCE="${!INITIAL_DATA_VARNAME}"
   GRAPH_IRI="${!INITIAL_GRAPH_VARNAME}"
-  if [ -n "${DATA_FILE}" ] && ! ls ${DATA_FILE} >/dev/null 2>&1; then
-    echo "Error: initial data file(s) for dataset ${dataset} not found: ${DATA_FILE}" >&2
-    exit 2
+  TEMP_DATA_FILE=""
+  DATA_FILE=""
+  if [ -n "${DATA_SOURCE}" ]; then
+    if [[ "${DATA_SOURCE}" =~ ^https?:// ]]; then
+      # URL: download to a temp file; default graph IRI to the URL
+      [ -z "${GRAPH_IRI}" ] && GRAPH_IRI="${DATA_SOURCE}"
+      TEMP_DATA_FILE=$(mktemp)
+      echo "Downloading initial data for dataset ${dataset} from ${DATA_SOURCE}"
+      if ! curl -fsSL "${DATA_SOURCE}" -o "${TEMP_DATA_FILE}"; then
+        echo "Error: failed to download initial data for dataset ${dataset} from ${DATA_SOURCE}" >&2
+        rm -f "${TEMP_DATA_FILE}"
+        exit 2
+      fi
+      DATA_FILE="${TEMP_DATA_FILE}"
+    else
+      # Local file(s)
+      DATA_FILE="${DATA_SOURCE}"
+      if ! ls ${DATA_FILE} >/dev/null 2>&1; then
+        echo "Error: initial data file(s) for dataset ${dataset} not found: ${DATA_FILE}" >&2
+        exit 2
+      fi
+    fi
   fi
 
   echo "Creating dataset ${dataset} at ${conffile}"
@@ -133,13 +152,14 @@ ja:MemoryDataset  rdfs:subClassOf  ja:RDFDataset .
 ja:DatasetRDFS  rdfs:subClassOf  ja:RDFDataset .
 EOF
 
-  if [ -n "${DATA_FILE}" -a -n "${GRAPH_IRI}" ]; then
-    echo "Loading initial data into ${dataset} (graph ${GRAPH_IRI}) from ${DATA_FILE}"
+  if [ -n "${DATA_FILE}" ] && [ -n "${GRAPH_IRI}" ]; then
+    echo "Loading initial data into ${dataset} (graph ${GRAPH_IRI}) from ${DATA_SOURCE}"
     ./tdbloader2 --loc="${TDB2_LOCATION}" --graph="${GRAPH_IRI}" ${DATA_FILE}
-  else
-    echo "Loading initial data into ${dataset} from ${DATA_FILE}"
+  elif [ -n "${DATA_FILE}" ]; then
+    echo "Loading initial data into ${dataset} from ${DATA_SOURCE}"
     ./tdbloader2 --loc="${TDB2_LOCATION}" ${DATA_FILE}
   fi
+  [ -n "${TEMP_DATA_FILE}" ] && rm -f "${TEMP_DATA_FILE}"
 done
 
 exec "${FUSEKI_HOME}/fuseki-server"

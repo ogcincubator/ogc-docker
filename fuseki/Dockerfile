@@ -17,15 +17,13 @@
 # by Stian Soiland-Reyes <stain@apache.org>
 
 
-FROM openjdk:11-jre-slim-buster
+FROM eclipse-temurin:17-jre-alpine
 
 ENV LANG C.UTF-8
 RUN set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+    apk add --no-cache \
        bash curl ca-certificates findutils coreutils gettext pwgen procps tini \
-    ; \
-    rm -rf /var/lib/apt/lists/*
+    ;
 
 
 # Update below according to https://jena.apache.org/download/ 
@@ -93,5 +91,5 @@ RUN rm -rf $FUSEKI_BASE
 VOLUME $FUSEKI_BASE
 
 EXPOSE 3030
-ENTRYPOINT ["/usr/bin/tini", "--", "/docker-entrypoint.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
