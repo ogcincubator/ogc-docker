@@ -17,3 +17,7 @@ Update frequency can be set using the `CRON_EXPRESSION` environment variable (de
 ## Limitations
 
 * Only public repositories can be cloned (there are no authentication mechanisms).
+
+## Source
+
+https://github.com/ogcincubator/ogc-docker

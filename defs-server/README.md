@@ -38,3 +38,7 @@ nginx configuration is generated automatically from the `DOCKER_PROXY` environme
     * An optional `upstreamLocation` property can be defined that will be used for the local path of the
       `proxy_pass` directive (the same value passed in `location` will be used by default).
     * An optional `headers` object can be added which will be translated to HTTP request headers.
+
+## Source
+
+https://github.com/ogcincubator/ogc-docker

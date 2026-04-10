@@ -116,3 +116,7 @@ To rotate the CA (e.g. after adding new domains to `URL_MAPPINGS`), delete `ssl/
 | Port | Protocol |
 |------|----------|
 | 3128 | HTTP proxy (also handles CONNECT/HTTPS via SSL bump) |
+
+## Source
+
+https://github.com/ogcincubator/ogc-docker

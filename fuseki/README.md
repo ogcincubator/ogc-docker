@@ -72,3 +72,7 @@ to the admin user by default.
 ## Exposed ports
 
 * 3030: Fuseki HTTP interface
+
+## Source
+
+https://github.com/ogcincubator/ogc-docker

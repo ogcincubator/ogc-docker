@@ -65,3 +65,7 @@ services:
       - prez
       - prez-ui
 ```
+
+## Source
+
+https://github.com/ogcincubator/ogc-docker
