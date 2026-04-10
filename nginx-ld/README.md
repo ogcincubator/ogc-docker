@@ -14,6 +14,8 @@ On startup, the entrypoint generates an nginx config from environment variables 
 | `PREZ_UI_URL` | No | `http://prez-ui:8080`            | Internal URL of the Prez UI service |
 | `PREZ_BACKEND_PATH` | No | `/prez-b`                        | Path prefix for the Prez backend proxy route |
 | `PREZ_UI_PATH` | No | `/prez`                          | Path prefix for the Prez UI proxy route |
+| `FUSEKI_URL` | No | `http://fuseki:3030`             | Internal URL of the Fuseki service |
+| `FUSEKI_PATH` | No | `/fuseki`                        | Path prefix for the Fuseki proxy route |
 | `TEMPLATE_FILE` | No | `/etc/nginx/nginx.conf.template` | Path to the nginx config template |
 | `OUTPUT_FILE` | No | `/etc/nginx/conf.d/default.conf` | Path where the generated config is written |
 
@@ -23,6 +25,7 @@ On startup, the entrypoint generates an nginx config from environment variables 
 |---|---|
 | `PREZ_UI_PATH` (`/prez`) | `PREZ_UI_URL` |
 | `PREZ_BACKEND_PATH` (`/prez-b`) | `PREZ_BACKEND_URL` |
+| `FUSEKI_PATH` (`/fuseki`) | `FUSEKI_URL` |
 
 ## Redirect rules (`REDIRECTS`)
 
